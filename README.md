@@ -3,3 +3,5 @@
 ## Introduction to Bayesian Inference
 
 PS2 - problem 1
+
+Hyperparameter choice for Minnesota prior.
