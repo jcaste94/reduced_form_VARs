@@ -4,7 +4,7 @@
 %*******************************************************************/
 
 subT     = 1;               % choose subsample */ 
-mprior   = 2;               % choose prior */
+%mprior   = 1;              % choose prior */
 %dataselstr = "d1";         % choose data set */
 nlags_   = 4;               % number of lags   */
 nirf_    = 40;              % choose number of responses */
@@ -38,7 +38,7 @@ elseif (mprior == 4);
   lambda  =   1;               % 2.3 tuning parameter for coefficients for constant*/ 
   mu      =   1;               % 12 tuning parameter for the covariance between coefficients*/
 elseif (mprior == 5);
-  tau     =  5.0;              % 2.0 overall tightness */ 
+  tau     =  2.0;              % 2.0 overall tightness */ 
   d       =   4;               % scaling down the variance for the coefficients of a distant lag */ 
   w       =   1;               % number of observations used for obtaining the prior for the covariance matrix of error terms*/ 
   lambda  =   0.1;             % 2.3 tuning parameter for coefficients for constant*/ 
