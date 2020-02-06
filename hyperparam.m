@@ -18,16 +18,18 @@ close all
 clear all
 clc
 
-
-vmprior = [1 2 3 4 5]';          % indicates the choice of the prior
+vmprior = [1 2 3 4 5]';            % indicates the choice of the prior
 nAlternatives = length(vmprior);    
-vmdd = zeros(nAlternatives, 1);    % stores marginal likelihoods from different priors
+vmdd = zeros(nAlternatives, 1);    % stores marginal likelihoods from different tighness
 
+%=========================================================================
+%                       LOOP OVER ALTERNATIVES
+%=========================================================================
 for iAlternative = 1:nAlternatives
    
-    %=========================================================================
+    %=====================================================================
     %         GENERATE DUMMY OBSERVATIONS FROM MINNESOTA PRIOR 
-    %=========================================================================
+    %=====================================================================
     disp('                                                                  ');
     disp('      GENERATING DUMMY OBSERVATIONS FROM THE MINESOTA PRIOR       ');
     disp('                                                                  ');
@@ -36,9 +38,9 @@ for iAlternative = 1:nAlternatives
     vm_dummy
 
     disp(['      OVERALL TIGHTNESS:   ', num2str(tau)])
-    %=========================================================================
+    %=====================================================================
     %     DEFINITION OF DATA, LAG STRUCTURE AND POSTERIOR SIMULATION
-    %=========================================================================
+    %=====================================================================
 
     [Tdummy,n] = size(YYdum);
     [Tobs,n]   = size(YYact);
@@ -57,9 +59,9 @@ for iAlternative = 1:nAlternatives
     end
 
 
-    %=========================================================================
+    %=====================================================================
     %               OLS ESTIMATOR FOR PHI AND SSR (SIGMA)
-    %=========================================================================
+    %=====================================================================
 
     Phi_tilde = inv(X'*X)*X'*Y;
     Sigma     = (Y-X*Phi_tilde)'*(Y-X*Phi_tilde);
@@ -71,9 +73,9 @@ for iAlternative = 1:nAlternatives
     largeeig  = zeros(nsim,1);
     counter   = 0;
 
-    %=========================================================================
+    %=====================================================================
     %            DRAWS FROM POSTERIOR DENSITY (DIRECT SAMPLING)
-    %=========================================================================
+    %=====================================================================
     disp('                                                                  ');
     disp('        BAYESIAN ESTIMATION OF VAR: DIRECT SAMPLING...            ');
     disp('                                                                  ');
@@ -98,66 +100,26 @@ for iAlternative = 1:nAlternatives
 
         Phi = Phi(1:n*p,:);
 
-
-        % Calculating largest eigenvalue of Companion form
-
-         F(1:n,1:n*p)    = Phi';
-
-         eigen           = eig(F);
-         eigen           = max(eigen);
-         largeeig(j)     = abs(eigen);
-         counter         = counter +1; 
-
+        
          if counter==2000
-    disp(['         DRAW NUMBER:   ', num2str(j)]);
-    disp('                                                                  ');
-    disp(['     REMAINING DRAWS:   ', num2str(nsim-j)]);
-    disp('                                                                  ');
+            disp(['         DRAW NUMBER:   ', num2str(j)]);
+            disp('                                                      ');
+            disp(['     REMAINING DRAWS:   ', num2str(nsim-j)]);
+            disp('                                                      ');
 
-         counter = 0;
-
+            counter = 0;
          end
 
     end
 
-    %=========================================================================
+    %=====================================================================
     %                        MARGINAL DATA DENSITY
-    %=========================================================================
+    %=====================================================================
 
     vm_mdd
 
     vmdd(iAlternative) = lnpYY;               % Marginal Data Density
 
-    %{
-    %=========================================================================
-    %           FIGURE 1: LARGEST EIGENVALUE (Companion Form)
-    %=========================================================================
-
-    pnames = strvcat( 'Largest Eigenvalue (Recursive Average)',...
-        'Largest Eigenvalue (Posterior Marginal Density)');
-
-    figure('Position',[20,20,900,600],'Name',...
-        'Largest Eigenvalue (Companion Form)','Color','w')
-
-    rmean = zeros(nsim,1);
-
-    for i=1:nsim
-        rmean(i) = mean(largeeig(1:i));
-    end
-
-    subplot(1,2,1), plot(rmean,'LineStyle','-','Color','b',...
-            'LineWidth',2.5), hold on
-    title(pnames(1,:),'FontSize',13,'FontWeight','bold');
-
-    [density,x]  = ksdensity(largeeig(nburn:end));
-
-    subplot(1,2,2), plot(x,density,'LineStyle','-','Color','b',...
-            'LineWidth',2.5), hold on
-
-    title(pnames(2,:),'FontSize',13,'FontWeight','bold');
-
-    %path=l;
-    %}
 
 
     disp(['         ELAPSED TIME:   ', num2str(toc)]);

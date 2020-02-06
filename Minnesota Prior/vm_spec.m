@@ -4,7 +4,7 @@
 %*******************************************************************/
 
 subT     = 1;               % choose subsample */ 
-%mprior   = 1;              % choose prior */
+%mprior   = 2;              % choose prior */
 %dataselstr = "d1";         % choose data set */
 nlags_   = 4;               % number of lags   */
 nirf_    = 40;              % choose number of responses */
