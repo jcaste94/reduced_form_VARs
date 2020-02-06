@@ -7,7 +7,7 @@
 % Date  : 02/04/2020
 %==========================================================================
 
-% Exercise 4: Means and 90% credible sets 
+% Exercises 4 & 5: Means and 90% credible sets 
 
 %=========================================================================
 %                             HOUSEKEEPING
@@ -94,19 +94,20 @@ for j=1:nsim
      eigen           = eig(F);
      eigen           = max(eigen);
      largeeig(j)     = abs(eigen);
-     counter         = counter +1; 
+     counter         = counter+1; 
      
      if counter==2000
-disp(['         DRAW NUMBER:   ', num2str(j)]);
-disp('                                                                  ');
-disp(['     REMAINING DRAWS:   ', num2str(nsim-j)]);
-disp('                                                                  ');
+        disp(['         DRAW NUMBER:   ', num2str(j)]);
+        disp('                                                          ');
+        disp(['     REMAINING DRAWS:   ', num2str(nsim-j)]);
+        disp('                                                          ');
 
-     counter = 0;
+        counter = 0;
      
      end
      
 end
+
 
 %=========================================================================
 %                        MARGINAL DATA DENSITY
@@ -116,17 +117,43 @@ vm_mdd
 
 mdd = lnpYY;               % Marginal Data Density
 
+
 %=========================================================================
 %                        MEANS AND CREDIBLE SETS
 %=========================================================================
 
-lb = prctile(Phip(:,end,:),10);
-%ub = prctile()
+% -----------------------
+% Intercept coefficients
+% -----------------------
+Phi_c_bar = mean(Phip(:,end,:),1);
+Phi_c_bar = reshape(Phi_c_bar, 4,1,1);
 
+lb_c = prctile(Phip(:,end,:),5);
+lb_c = reshape(lb_c, 4,1,1);
 
-disp(['         ELAPSED TIME:   ', num2str(toc)]);
+ub_c = prctile(Phip(:,end,:),95);
+ub_c = reshape(ub_c,4,1,1);
 
-elapsedtime=toc;
+% -------------------
+% Largest eigenvalue
+% -------------------
+mean_eig = mean(largeeig);
+lb_eig = prctile(largeeig, 5);
+ub_eig = prctile(largeeig, 95);
+
+% Recursive averaging
+rmean = zeros(nsim,1);
+r5per = zeros(nsim,1);
+r95per = zeros(nsim,1);
+for i=1:nsim
+    rmean(i) = mean(largeeig(1:i));
+    r5per(i) = prctile(largeeig(1:i),5);
+    r95per(i) = prctile(largeeig(1:i),95);
+end
+
+% Density
+[density,x]  = ksdensity(largeeig(nburn:end)); % density
+
 
 %% FIGURES
 
@@ -176,25 +203,48 @@ print -dpdf -r0 pRawData.pdf
 %           FIGURE 2: LARGEST EIGENVALUE (Companion Form)
 %=========================================================================
 
-pnames = strvcat( 'Largest Eigenvalue (Recursive Average)',...
+pnames = strvcat('Largest Eigenvalue (Recursive Average)',...
     'Largest Eigenvalue (Posterior Marginal Density)');
 
 figure('Position',[20,20,900,600],'Name',...
     'Largest Eigenvalue (Companion Form)','Color','w')
 
-rmean = zeros(nsim,1);
-
-for i=1:nsim
-    rmean(i) = mean(largeeig(1:i));
-end
-
-subplot(1,2,1), plot(rmean,'LineStyle','-','Color','b',...
+subplot(1,2,1), plot(rmean,'LineStyle','-','Color','k',...
         'LineWidth',2.5), hold on
-title(pnames(1,:),'FontSize',13,'FontWeight','bold');
+    plot(r5per,'LineStyle','--','Color','k',...
+        'LineWidth', 0.75), hold on
+     plot(r95per,'LineStyle','--','Color','k',...
+        'LineWidth', 0.75), hold on
+title(pnames(1,:),'FontSize',10,'FontWeight','bold');
 
-[density,x]  = ksdensity(largeeig(nburn:end));
 
-subplot(1,2,2), plot(x,density,'LineStyle','-','Color','b',...
+subplot(1,2,2), plot(x,density,'LineStyle','-','Color','k',...
         'LineWidth',2.5), hold on
+    xline(lb_eig,'LineStyle','--','Color','k',...
+        'LineWidth', 0.75), hold on
+    xline(ub_eig,'LineStyle','--','Color','k',...
+        'LineWidth', 0.75), hold on
 
-title(pnames(2,:),'FontSize',13,'FontWeight','bold');
+title(pnames(2,:),'FontSize',10,'FontWeight','bold');
+
+X = 29.7;                  % A4 paper size
+Y = 21.0;                  % A4 paper size
+xMargin = 1;               % left/right margins from page borders
+yMargin = 1;               % bottom/top margins from page borders
+xSize = X - 2*xMargin;     % figure size on paper (widht & hieght)
+ySize = Y - 2*yMargin;     % figure size on paper (widht & hieght)
+
+set(gcf, 'Units','centimeters', 'Position',[0 0 xSize ySize]/2)
+
+set(gcf, 'PaperUnits','centimeters')
+set(gcf, 'PaperSize',[X Y])
+set(gcf, 'PaperPosition',[xMargin yMargin xSize ySize])
+set(gcf, 'PaperOrientation','portrait')
+
+print -dpdf -r0 pEigen.pdf
+
+
+
+disp(['         ELAPSED TIME:   ', num2str(toc)]);
+
+elapsedtime=toc;
