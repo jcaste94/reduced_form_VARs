@@ -34,8 +34,8 @@ h=legend(legend_list, 'orientation', 'horizontal');
 set(h,'Fontsize',10);
 set(h,'Position',[0.45 0.01 0.1 0.05]);
 
-X = 21.0;                  % A4 paper size
-Y = 29.7;                  % A4 paper size
+X = 29.7;                  % A4 paper size
+Y = 21.0;                  % A4 paper size
 xMargin = 1;               % left/right margins from page borders
 yMargin = 1;               % bottom/top margins from page borders
 xSize = X - 2*xMargin;     % figure size on paper (widht & hieght)
