@@ -125,21 +125,21 @@ mdd = lnpYY;               % Marginal Data Density
 % -----------------------
 % Intercept coefficients
 % -----------------------
-Phi_c_bar = mean(Phip(:,end,:),1);
+Phi_c_bar = mean(Phip(nburn:end,end,:),1);
 Phi_c_bar = reshape(Phi_c_bar, 4,1,1);
 
-lb_c = prctile(Phip(:,end,:),5);
+lb_c = prctile(Phip(nburn:end,end,:),5);
 lb_c = reshape(lb_c, 4,1,1);
 
-ub_c = prctile(Phip(:,end,:),95);
+ub_c = prctile(Phip(nburn:end,end,:),95);
 ub_c = reshape(ub_c,4,1,1);
 
 % -------------------
 % Largest eigenvalue
 % -------------------
-mean_eig = mean(largeeig);
-lb_eig = prctile(largeeig, 5);
-ub_eig = prctile(largeeig, 95);
+mean_eig = mean(largeeig(nburn:end));
+lb_eig = prctile(largeeig(nburn:end), 5);
+ub_eig = prctile(largeeig(nburn:end), 95);
 
 % Recursive averaging
 rmean = zeros(nsim,1);
