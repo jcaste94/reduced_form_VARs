@@ -12,7 +12,6 @@
 %                             HOUSEKEEPING
 %=========================================================================
 
-tic
 close all
 clear all
 clc
@@ -21,7 +20,7 @@ clc
 %       DIRECT MONTE CARLO SAMPLING FROM POSTERIOR OF VAR PARAMETERS
 %=========================================================================
 
-VAR
+load("resultsVAR")
 
 %=========================================================================
 %           FIGURE 1: EVOLUTION OF ACTUAL DATA
@@ -48,17 +47,17 @@ h=legend(legend_list, 'orientation', 'horizontal');
 set(h,'Fontsize',10);
 set(h,'Position',[0.45 0.01 0.1 0.05]);
 
-X = 29.7;                  % A4 paper size
-Y = 21.0;                  % A4 paper size
+x = 29.7;                  % A4 paper size
+y = 21.0;                  % A4 paper size
 xMargin = 1;               % left/right margins from page borders
 yMargin = 1;               % bottom/top margins from page borders
-xSize = X - 2*xMargin;     % figure size on paper (widht & hieght)
-ySize = Y - 2*yMargin;     % figure size on paper (widht & hieght)
+xSize = x - 2*xMargin;     % figure size on paper (widht & hieght)
+ySize = y - 2*yMargin;     % figure size on paper (widht & hieght)
 
 set(gcf, 'Units','centimeters', 'Position',[0 0 xSize ySize]/2)
 
 set(gcf, 'PaperUnits','centimeters')
-set(gcf, 'PaperSize',[X Y])
+set(gcf, 'PaperSize',[x y])
 set(gcf, 'PaperPosition',[xMargin yMargin xSize ySize])
 set(gcf, 'PaperOrientation','portrait')
 
@@ -75,42 +74,35 @@ pnames = strvcat('Largest Eigenvalue (Recursive Average)',...
 figure('Position',[20,20,900,600],'Name',...
     'Largest Eigenvalue (Companion Form)','Color','w')
 
-subplot(1,2,1), plot(rmean,'LineStyle','-','Color','k',...
-        'LineWidth',2.5), hold on
-    plot(r5per,'LineStyle','--','Color','k',...
-        'LineWidth', 0.75), hold on
-     plot(r95per,'LineStyle','--','Color','k',...
-        'LineWidth', 0.75), hold on
+subplot(1,2,1), 
+plot(rmean,'LineStyle','-','Color','k','LineWidth',2.5)
+hold on
+plot(r5per,'LineStyle','--','Color','k','LineWidth', 0.75)
+hold on
+plot(r95per,'LineStyle','--','Color','k','LineWidth', 0.75)
 title(pnames(1,:),'FontSize',10,'FontWeight','bold');
 
 
-subplot(1,2,2), plot(x,density,'LineStyle','-','Color','k',...
-        'LineWidth',2.5), hold on
-    xline(lb_eig,'LineStyle','--','Color','k',...
-        'LineWidth', 0.75), hold on
-    xline(ub_eig,'LineStyle','--','Color','k',...
-        'LineWidth', 0.75), hold on
-
+subplot(1,2,2)
+plot(x_den,density,'LineStyle','-','Color','k','LineWidth',2.5)
+hold on
+xline(lb_eig,'LineStyle','--','Color','k','LineWidth', 0.75)
+hold on
+xline(ub_eig,'LineStyle','--','Color','k','LineWidth', 0.75)
 title(pnames(2,:),'FontSize',10,'FontWeight','bold');
 
-X = 29.7;                  % A4 paper size
-Y = 21.0;                  % A4 paper size
+x = 29.7;                  % A4 paper size
+y = 21.0;                  % A4 paper size
 xMargin = 1;               % left/right margins from page borders
 yMargin = 1;               % bottom/top margins from page borders
-xSize = X - 2*xMargin;     % figure size on paper (widht & hieght)
-ySize = Y - 2*yMargin;     % figure size on paper (widht & hieght)
+xSize = x - 2*xMargin;     % figure size on paper (widht & hieght)
+ySize = y - 2*yMargin;     % figure size on paper (widht & hieght)
 
 set(gcf, 'Units','centimeters', 'Position',[0 0 xSize ySize]/2)
 
 set(gcf, 'PaperUnits','centimeters')
-set(gcf, 'PaperSize',[X Y])
+set(gcf, 'PaperSize',[x y])
 set(gcf, 'PaperPosition',[xMargin yMargin xSize ySize])
 set(gcf, 'PaperOrientation','portrait')
 
 print -dpdf -r0 pEigen.pdf
-
-
-
-disp(['         ELAPSED TIME:   ', num2str(toc)]);
-
-elapsedtime=toc;

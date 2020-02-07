@@ -67,6 +67,6 @@ lnpY0 = -nv*(n_dummy-k)*0.5*log(pi)-(nv/2)*log(abs(det(XXdum'*XXdum)))-(n_dummy-
 lnpY1 = -nv*(n_total-k)*0.5*log(pi)-(nv/2)*log(abs(det(XX'*XX)))-(n_total-k)*0.5*log(abs(det(S1)))+nv*(nv-1)*0.25*log(pi)+gam1;  
 lnpYY = lnpY1-lnpY0;
 tau;
-save lnpYY 
+% save lnpYY 
 
 
