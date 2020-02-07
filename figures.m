@@ -33,7 +33,7 @@ marker={'none','none','none','none'};
 legend_list = {'Output', 'Inflation', 'Interest rate', 'Inverse velocity'};
 
 % xaxis
-time = 1965:0.25:2005;
+time = 1966:0.25:2006;
 
 figure(1);
 p = plot(time, YYact, 'linewidth', 1);
@@ -61,7 +61,7 @@ set(gcf, 'PaperSize',[x y])
 set(gcf, 'PaperPosition',[xMargin yMargin xSize ySize])
 set(gcf, 'PaperOrientation','portrait')
 
-print -dpdf -r0 pRawData.pdf
+print -dpdf -r0 pHistData.pdf
 
 
 %=========================================================================
