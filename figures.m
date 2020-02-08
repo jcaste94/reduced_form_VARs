@@ -74,12 +74,13 @@ pnames = strvcat('Largest Eigenvalue (Recursive Average)',...
 figure('Position',[20,20,900,600],'Name',...
     'Largest Eigenvalue (Companion Form)','Color','w')
 
-subplot(1,2,1), 
+subplot(1,2,1) 
 plot(rmean,'LineStyle','-','Color','k','LineWidth',2.5)
 hold on
 plot(r5per,'LineStyle','--','Color','k','LineWidth', 0.75)
 hold on
 plot(r95per,'LineStyle','--','Color','k','LineWidth', 0.75)
+grid on
 title(pnames(1,:),'FontSize',10,'FontWeight','bold');
 
 
@@ -89,6 +90,7 @@ hold on
 xline(lb_eig,'LineStyle','--','Color','k','LineWidth', 0.75)
 hold on
 xline(ub_eig,'LineStyle','--','Color','k','LineWidth', 0.75)
+grid on
 title(pnames(2,:),'FontSize',10,'FontWeight','bold');
 
 x = 29.7;                  % A4 paper size
