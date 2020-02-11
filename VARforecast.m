@@ -4,7 +4,7 @@
 %
 %
 % Author: Juan Castellanos Silvan (from Luigi Boccola's original code)
-% Date  : 02/06/2020
+% Date  : 02/11/2020
 %==========================================================================
 
 % Exercise 6: point and interval forecasts
@@ -22,7 +22,7 @@ clc
 %       DIRECT MONTE CARLO SAMPLING FROM POSTERIOR OF VAR PARAMETERS
 %=========================================================================
 
-load("resultsVAR.mat")
+load("resultsVAR.mat", 'n','p','YYact','Phip','Sigmap')
 
 
 %=========================================================================
