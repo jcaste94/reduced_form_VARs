@@ -75,7 +75,7 @@ YY = [repmat(YYact,1,1,nsim); YYf];
 
 %% Fan Charts
 
-figure_list = {'Output', 'Inflation', 'Interest rate', 'Inverse velocity'};
+figure_list = {'Output', 'Inflation', 'InterestRate', 'InverseVelocity'};
 
 % xaxis 
 time = 1966:0.25:2009;
@@ -86,6 +86,23 @@ for i=1:n
     set(lh,'LineWidth',1);
     xlabel("Time")
     grid on
+    
+    x = 29.7;                  % A4 paper size
+    y = 21.0;                  % A4 paper size
+    xMargin = 1;               % left/right margins from page borders
+    yMargin = 1;               % bottom/top margins from page borders
+    xSize = x - 2*xMargin;     % figure size on paper (widht & hieght)
+    ySize = y - 2*yMargin;     % figure size on paper (widht & hieght)
+
+    set(gcf, 'Units','centimeters', 'Position',[0 0 xSize ySize]/2)
+
+    set(gcf, 'PaperUnits','centimeters')
+    set(gcf, 'PaperSize',[x y])
+    set(gcf, 'PaperPosition',[xMargin yMargin xSize ySize])
+    set(gcf, 'PaperOrientation','portrait')
+    
+   saveas(gcf, strcat('p',figure_list{i},'.pdf'))
+
 end
 
 disp(['         ELAPSED TIME:   ', num2str(toc)]);
