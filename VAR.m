@@ -152,7 +152,7 @@ for i=1:nsim
 end
 
 % Density
-[density,x_den]  = ksdensity(largeeig(nburn:end)); % density
+[density,x_den]  = ksdensity(largeeig(nburn:end));
 
 disp(['         ELAPSED TIME:   ', num2str(toc)]);
 
