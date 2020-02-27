@@ -2,6 +2,6 @@
 
 ## Reduced-from Vector Autoregression 
 
-PS2 - problem 1
+### PS2 - problem 1
 
 Hyperparameter choice for Minnesota prior. Means and credible sets from Monte Carlo simulation drawing from posterior distribution. Point and interval forecasting. 
